@@ -1,6 +1,7 @@
 package ru.hogwarts.school.entity;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -11,6 +12,9 @@ public class Faculty {
     private Long id;
     private String name;
     private String color;
+
+    @OneToMany
+    private List<Student> student;
 
     public Faculty(Long id, String name, String color) {
         this.id = id;
@@ -44,6 +48,15 @@ public class Faculty {
     public void setColor(String color) {
         this.color = color;
     }
+
+    public List<Student> getStudent() {
+        return student;
+    }
+
+    public void setStudent(List<Student> student) {
+        this.student = student;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

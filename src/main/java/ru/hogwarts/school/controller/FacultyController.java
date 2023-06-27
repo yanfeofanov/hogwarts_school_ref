@@ -3,6 +3,7 @@ package ru.hogwarts.school.controller;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.dto.FacultyDtoIn;
 import ru.hogwarts.school.dto.FacultyDtoOut;
+import ru.hogwarts.school.dto.StudentDtoOut;
 import ru.hogwarts.school.service.FacultyService;
 
 import java.util.List;
@@ -50,6 +51,11 @@ public class FacultyController {
     @GetMapping("/filter")
     public List<FacultyDtoOut> findByColorOrName(@RequestParam String colorOrName){
         return facultyService.findByColorOrName(colorOrName);
+    }
+
+    @GetMapping("/{id}/student")
+    public List<StudentDtoOut> findStudent(@PathVariable("id") long id){
+        return facultyService.findStudent(id);
     }
 
 }

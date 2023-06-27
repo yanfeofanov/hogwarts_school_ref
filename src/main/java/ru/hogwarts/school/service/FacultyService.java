@@ -4,10 +4,13 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.dto.FacultyDtoIn;
 import ru.hogwarts.school.dto.FacultyDtoOut;
+import ru.hogwarts.school.dto.StudentDtoOut;
 import ru.hogwarts.school.entity.Faculty;
 import ru.hogwarts.school.exception.FacultyNotFindException;
 import ru.hogwarts.school.mapper.FacultyMapper;
+import ru.hogwarts.school.mapper.StudentMapper;
 import ru.hogwarts.school.repository.FacultyRepository;
+import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,11 +22,17 @@ public class FacultyService {
 
     private final FacultyRepository facultyRepository;
 
+    private final StudentRepository studentRepository;
+
     private final FacultyMapper facultyMapper;
 
-    public FacultyService(FacultyRepository facultyRepository, FacultyMapper facultyMapper) {
+    private final StudentMapper studentMapper;
+
+    public FacultyService(FacultyRepository facultyRepository, StudentRepository studentRepository, FacultyMapper facultyMapper, StudentMapper studentMapper) {
         this.facultyRepository = facultyRepository;
+        this.studentRepository = studentRepository;
         this.facultyMapper = facultyMapper;
+        this.studentMapper = studentMapper;
     }
 
     public FacultyDtoOut createFaculty(FacultyDtoIn facultyDtoIn) {
@@ -68,5 +77,9 @@ public class FacultyService {
     }
 
 
-
+    public List<StudentDtoOut> findStudent(long id) {
+        return studentRepository.findAllByFaculty_id(id)
+                .stream().map(studentMapper::toDto)
+                .collect(Collectors.toList());
+    }
 }
